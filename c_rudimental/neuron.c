@@ -49,23 +49,16 @@ float dcost(float w)
 
 int main()
 {
-    // srand(time(0));
     srand(69);
     float w = rand_float()*10.0f;
 
     float rate = 1e-1;
 
-    printf("cost = %f, w = %f\n", cost(w), w);
+    printf("cost = %f, w = %f\n", dcost(w), w);
     for (size_t i = 0; i < 50; ++i) {
-#if 0
-        float eps = 1e-3;
-        float c = cost(w);
-        float dw = (cost(w + eps) - c)/eps;;
-#else
         float dw = dcost(w);
-#endif
         w -= rate*dw;
-        printf("cost = %f, w = %f\n", cost(w), w);
+        printf("cost = %f, w = %f\n", dcost(w), w);
     }
 
     printf("------------------------------\n");

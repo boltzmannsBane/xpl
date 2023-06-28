@@ -2,5 +2,5 @@
 
 set -xe
 
-clang -Wall -Wextra -o neuron neuron.c
-# clang -Wall -Wextra -o gates gates.c
+clang -Wall -Wextra -o neuron neuron.c -lm
+clang -Wall -Wextra -o gates gates.c -lm
