@@ -96,16 +96,6 @@ Xor rand_xor(void)
     return m;
 }
 
-void print_xor(Xor m)
-{
-    int i;
-    for (i = 0; i < 3; i++) {
-    printf("neuron %i w1 = %f\n", i, m.neurons[i].w1);
-    printf("neuron %i w2 = %f\n", i, m.neurons[i].w2);
-    printf("neuron %i b = %f\n", i, m.neurons[i].b);
-  }
-}
-
 Xor learn(Xor m, Xor g, float rate)
 {
     int i;
@@ -149,9 +139,6 @@ int main(void)
 {
     srand(time(0));
     Xor m = rand_xor();
-
-
-    print_xor(m);
 
     float eps = 1e-1;
     float rate = 1e-1;
