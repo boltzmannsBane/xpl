@@ -3,22 +3,26 @@
 #include "nn.h"
 
 typedef struct {
-  Mat a0, a1, a2;
-  Mat w1, b1;
-  Mat w2, b2;
-} Xor;
+  size_t count;
+  Mat *ws;
+  Mat *bs;
+  Mat *as; // the amount of activations is count+1
+} NN;
 
-Xor xor_alloc(void) {
-  Xor m;
-  m.a0 = mat_alloc(1,2);
-  m.w1 = mat_alloc(2,2);
-  m.b1 = mat_alloc(1, 2);
-  m.a1 = mat_alloc(1, 2);
-  m.w2 = mat_alloc(2, 1);
-  m.b2 = mat_alloc(1,1);
-  m.a2 = mat_alloc(1,1);
+#define ARRAY_LEN(xs) sizeof((xs))/sizeof((xs)[0])
 
-  return m;
+NN nn_alloc(size_t *arch, size_t arch_count) {
+  NN nn;
+  nn.count = arch_count - 1;
+
+  nn.ws = NN_MALLOC(sizeof(*nn.ws)*nn.count);
+  NN_ASSERT(nn.ws != NULL);
+  nn.bs = NN_MALLOC(sizeof(*nn.bs)*nn.count);
+  NN_ASSERT(nn.bs != NULL);
+  nn.as = NN_MALLOC(sizeof(*nn.as)*(nn.count + 1));
+  NN_ASSERT(nn.bs != NULL);
+
+  return nn;
 }
 
 float td[] = {
@@ -125,6 +129,7 @@ int main(void) {
 
   size_t stride = 3;
   size_t n = sizeof(td)/sizeof(td[0])/3;
+
   Mat ti = {
     .rows = n,
     .cols = 2,
