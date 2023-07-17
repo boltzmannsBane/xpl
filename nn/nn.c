@@ -24,7 +24,7 @@ Xor xor_alloc(void) {
 float td[] = {
   0, 0, 0,
   0, 1, 1,
-  1, 0, 0,
+  1, 0, 1,
   1, 1, 0,
 };
 
@@ -150,7 +150,7 @@ int main(void) {
   float rate = 1e-1;
 
   printf("cost = %f\n", cost(m, ti, to));
-  for (size_t i = 0; i < 1000; ++i) {
+  for (size_t i = 0; i < 100000; ++i) {
     finite_diff(m, g, eps, ti, to);
     learn(m, g, rate);
     printf("cost = %f\n", cost(m, ti, to));
