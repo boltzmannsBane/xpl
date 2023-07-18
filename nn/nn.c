@@ -12,6 +12,7 @@ typedef struct {
 #define ARRAY_LEN(xs) sizeof((xs))/sizeof((xs)[0])
 
 NN nn_alloc(size_t *arch, size_t arch_count) {
+  NN_ASSERT(arch_count > 0);
   NN nn;
   nn.count = arch_count - 1;
 
@@ -21,6 +22,12 @@ NN nn_alloc(size_t *arch, size_t arch_count) {
   NN_ASSERT(nn.bs != NULL);
   nn.as = NN_MALLOC(sizeof(*nn.as)*(nn.count + 1));
   NN_ASSERT(nn.bs != NULL);
+
+  nn.as[0] = mat_alloc(1, arch[0]);
+  for (size_t i = 0; i < arch_count; ++i) {
+    nn.ws[i-1] = mat_alloc(nn.as[i-1].cols, arch[i])
+    nn.ws[i-1] = mat_alloc()
+  }
 
   return nn;
 }
@@ -32,15 +39,6 @@ float td[] = {
   1, 1, 0,
 };
 
-void forward_xor(Xor m) {
-  mat_dot(m.a1, m.a0, m.w1);
-  mat_sum(m.a1, m.b1);
-  mat_sig(m.a1);
-
-  mat_dot(m.a2, m.a1, m.w2);
-  mat_sum(m.a2, m.b2);
-  mat_sig(m.a2);
-}
 
 float cost(Xor m, Mat ti, Mat to) {
   assert(ti.rows == to.rows);
