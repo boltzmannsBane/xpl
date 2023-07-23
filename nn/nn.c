@@ -28,6 +28,7 @@ float td[] = {
   1, 1, 0,
 };
 
+
 void forward_xor(Xor m) {
   mat_dot(m.a1, m.a0, m.w1);
   mat_sum(m.a1, m.b1);
@@ -121,13 +122,8 @@ void learn(Xor m, Xor g, float rate) {
 }
 
 int main(void) {
-  size_t arch[] = {2, 2, 1};
-  NN nn = nn_alloc(arch, ARRAY_LEN(arch));
-  NN_PRINT(nn);
-
-  return 0;
-
   srand(time(0));
+  
 
   size_t stride = 3;
   size_t n = sizeof(td)/sizeof(td[0])/3;
@@ -138,6 +134,7 @@ int main(void) {
     .stride = stride,
     .es = td
   };
+
   Mat to = {
     .rows = n,
     .cols = 1,
@@ -145,37 +142,30 @@ int main(void) {
     .es = td + 2,
   };
 
-  Xor m = xor_alloc();
-  Xor g = xor_alloc();
-
-  mat_rand(m.w1, 0, 1);
-  mat_rand(m.b1, 0, 1);
-  mat_rand(m.w2, 0, 1);
-  mat_rand(m.b2, 0, 1);
+  size_t arch[] = {2, 2, 1};
+  NN nn = nn_alloc(arch, ARRAY_LEN(arch));
+  NN g = nn_alloc(arch, ARRAY_LEN(arch));
+  nn_rand(nn, 0, 1);
+//  NN_PRINT(nn);
 
   float eps = 1e-1;
   float rate = 1e-1;
 
-  printf("cost = %f\n", cost(m, ti, to));
-  for (size_t i = 0; i < 100000; ++i) {
-    finite_diff(m, g, eps, ti, to);
-    learn(m, g, rate);
-    printf("cost = %f\n", cost(m, ti, to));
+  printf("cost = %f\n", nn_cost(nn, ti, to));
+  for (size_t i = 0; i < 100*1000; ++i) {
+    nn_finite_diff(nn, g, eps, ti, to);
+    nn_learn(nn, g, rate);
+    printf("cost = %f\n", nn_cost(nn, ti, to));
   }
 
-  printf("------------------\n");
-  #if 1
-  for (size_t i=0; i < 2; ++i) {
-    for (size_t j=0; j < 2; ++j) {
-      MAT_AT(m.a0, 0, 0) = i;
-      MAT_AT(m.a0, 0, 1) = j;
-      forward_xor(m);
-      float y = *m.a2.es;
-
-      printf("%zu ^ %zu = %f\n", i, j, y);
+  for (size_t i = 0; i < 2; ++i) {
+    for (size_t j = 0; j < 2; ++j) {
+      MAT_AT(NN_INPUT(nn), 0, 0) = i;
+      MAT_AT(NN_INPUT(nn), 0, 1) = j;
+      nn_forward(nn);
+      printf("%zu ^ %zu = %f\n", i, j, MAT_AT(NN_OUTPUT(nn), 0, 0));
     }
   }
-  #endif
 
   return 0;
 }
