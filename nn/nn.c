@@ -11,7 +11,6 @@ float td[] = {
 
 int main(void) {
   srand(time(0));
-  
 
   size_t stride = 3;
   size_t n = sizeof(td)/sizeof(td[0])/3;
