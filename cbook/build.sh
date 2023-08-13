@@ -3,4 +3,4 @@
 
 set -xe
 
-clang -Wall -Wextra -o func func.c -lm
+clang -Wall -Wextra -o copy copy.c -lm
