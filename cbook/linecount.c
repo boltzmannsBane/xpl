@@ -8,10 +8,14 @@ main()
   //   if (c == '\n')
   //     ++nl;
   // printf("%d\n", nl);
-  int c, blanks;
-  blanks = 0;
+  int c;
   while ((c = getchar()) != EOF) 
-    if (c == ' ')
-      ++blanks;
-  printf("%d\n", blanks);
+    if (c == '\t')
+      putchar('\t');
+    else if (c == '\b')
+      putchar('\b');
+    else if (c == '\\')
+      putchar('\\');
+    else 
+      putchar(c);
 }
