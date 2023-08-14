@@ -1,10 +1,12 @@
 #include <stdio.h>
 
+#define BYTE 1*8bits
+
 int main() {
   printf("Size of int: %zu bytes\n", sizeof(int));
 
-  unsigned int max_unsigned_int = ~0;
-  int max_int = (int)(max_unsigned_int >> 1);
+  unsigned int max_uint = ~0;
+  int max_int = (int)(max_uint >> 1);
   int min_int = ~max_int;
 
   printf("Range of int: %d to %d\n", max_int, min_int);
