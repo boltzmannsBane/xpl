@@ -4,6 +4,7 @@
 
 int main() {
   printf("Size of int: %zu bytes\n", sizeof(int));
+  printf("Size of char: %zu bytes\n", sizeof(char));
 
   unsigned int max_uint = ~0;
   int max_int = (int)(max_uint >> 1);
