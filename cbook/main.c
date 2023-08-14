@@ -1,7 +1,5 @@
-void push(void);
-void pop(void);
 
 int main()
 {
-return 0;
+  return 0;
 }
