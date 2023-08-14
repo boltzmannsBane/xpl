@@ -3,4 +3,4 @@
 
 set -xe
 
-clang -Wall -Wextra -o copy copy.c -lm
+clang -Wall -Wextra -o sizes sizes.c -lm
